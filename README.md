@@ -90,8 +90,7 @@ async function findCounter(){
 
 ## Информация: 
 
-> Прошу оценить звездой, если эта разработка была вам полезна.
-![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/6079643e-f6e0-40bc-8534-febb441f0e43)
+> Прошу оценить звездой, если эта разработка была вам полезна. <a class="github-button" href="https://github.com/Artelove/gitlab-fix-merge-settings-menu" data-color-scheme="no-preference: light; light: light_high_contrast; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star Artelove/gitlab-fix-merge-settings-menu on GitHub">Star to Artelove</a>
 
 ### По вопросам и улучшениям обращаться: 
 _Александр Карагичев_
