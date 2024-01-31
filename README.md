@@ -45,6 +45,7 @@
 ```js
 setTimeout(() => findContainer(), 1000);
 
+
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
@@ -52,9 +53,10 @@ async function findContainer() {
 
 	console.log(container);
 
-	if (container == null || settings == null || counter == null) {
+	if (container == null || settings == null) {
 		await setTimeout(() => findContainer(), 1000);
 	} else {
+		setTimeout(() => findCounter(), 1000);
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
 		block1.id = "git_fix_block1";
@@ -72,8 +74,13 @@ async function findContainer() {
 
 		block1.appendChild(settings);
 		block2.appendChild(merge_request_tabs);
-		block2.appendChild(counter.parentElement);
 	}
+}
+
+async function findCounter(){
+	let counter = document.querySelector("#discussionCounter");
+	let block2 = document.querySelector("#git_fix_block2");
+	block2.appendChild(counter.parentElement);
 }
 ```
 
