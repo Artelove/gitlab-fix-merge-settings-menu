@@ -44,6 +44,7 @@
 ```js
 setTimeout(() => findContainer(), 1000);
 
+
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
@@ -77,8 +78,15 @@ async function findContainer() {
 
 async function findCounter(){
 	let counter = document.querySelector("#discussionCounter");
-	let block2 = document.querySelector("#git_fix_block2");
-	block2.appendChild(counter.parentElement);
+	if(counter == null)
+	{	
+		setTimeout(() => findCounter(), 1000); 
+	}
+	else
+	{
+		let block2 = document.querySelector("#git_fix_block2");
+		block2.appendChild(counter.parentElement);
+	}
 }
 ```
 
