@@ -67,7 +67,7 @@ async function findContainer() {
 		container.style = "flex-direction:column";
 		container.appendChild(block1);
 		container.appendChild(block2);
-
+		settings.style = "width:100%";
 		let merge_request_tabs = document.querySelector(".merge-request-tabs");
 
 		block1.appendChild(settings);
