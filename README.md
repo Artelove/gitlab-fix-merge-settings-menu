@@ -44,7 +44,6 @@
 ```js
 setTimeout(() => findContainer(), 1000);
 
-
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
