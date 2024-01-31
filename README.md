@@ -28,7 +28,8 @@
 Закрепить по умолчанию меню настроек сверху независимо от скрола.
 Пример:
 
-![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/5b05f0fe-f681-4973-b82f-217bf002fbd3)
+![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/61c3d639-9d8a-4fcb-93bb-70ac60b7aa6b)
+
 
 Благодаря этому появляется возможность иметь **быстрый доступ к настройкам** просматриваемоего пространства.
 
@@ -42,7 +43,6 @@
 
 ```js
 setTimeout(() => findContainer(), 1000);
-
 
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
