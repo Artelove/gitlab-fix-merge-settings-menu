@@ -84,7 +84,6 @@ async function findCounter() {
 
 async function changeFileHeadersTopMargin(){
 	let fileHeaders = document.querySelectorAll("div[data-qa-selector=file_title_container]");
-	console.log(fileHeaders);
 	fileHeaders.forEach((header) => {
 		header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);"
 	});
