@@ -46,7 +46,6 @@ setTimeout(() => findContainer(), 500);
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
-	let counter = document.querySelector("#discussionCounter");
 
 	if (container == null || settings == null) {
 		await setTimeout(() => findContainer(), 1000);
