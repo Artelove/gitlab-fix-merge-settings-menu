@@ -45,12 +45,11 @@ async function findContainer() {
 	let settings = document.querySelector(".mr-version-menus-container");
 	let counter = document.querySelector("#discussionCounter");
 
-	console.log(container);
-
 	if (container == null || settings == null) {
 		await setTimeout(() => findContainer(), 1000);
 	} else {
 		setTimeout(() => findCounter(), 1000);
+		setTimeout(() => changeFileHeadersTopMargin(), 1000);
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
 		block1.id = "git_fix_block1";
@@ -79,6 +78,15 @@ async function findCounter() {
 		let block2 = document.querySelector("#git_fix_block2");
 		block2.appendChild(counter.parentElement);
 	}
+}
+
+async function changeFileHeadersTopMargin(){
+	let fileHeaders = document.querySelectorAll("div[data-qa-selector=file_title_container]");
+	console.log(fileHeaders);
+	fileHeaders.forEach((header) => {
+		header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);"
+	});
+	setTimeout(() => changeFileHeadersTopMargin(), 1000);
 }
 ```
 
