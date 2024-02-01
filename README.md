@@ -31,7 +31,7 @@
 
 ## Инструкция по установке:
 
-1.  Установить расширение для позволяющее добавлять `js-код` на страницу. [User JavaScript and CSS](https://chromewebstore.google.com/detail/nbhcbdghjpllgmfilhnhkllmkecfmpld) (Или иное расширение поддерживающее внедрение `js` на страницу, работающее в вашем браузере.) (Проверено на Chromium-платформе _[Yandex Brouser, Google Chrome, Microsoft Edge, Opera]_ Для Firefox (https://addons.mozilla.org/en-US/firefox/addon/custom-style-script/) )
+1.  Установить расширение для позволяющее добавлять `js-код` на страницу. [User JavaScript and CSS](https://chromewebstore.google.com/detail/nbhcbdghjpllgmfilhnhkllmkecfmpld) (Или иное расширение поддерживающее внедрение `js` на страницу, работающее в вашем браузере.) (Проверено на Chromium-платформе _[Yandex Brouser, Google Chrome, Microsoft Edge, Opera]_ Для Firefox [Custom Style Script](https://addons.mozilla.org/en-US/firefox/addon/custom-style-script/) )
 2.  Ввести необходимый url сайта. `https://git.itl.team/`
     ![Pasted image 20240130124946](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/eafbd02b-d80b-48a9-843c-40e82893b23c)
 
