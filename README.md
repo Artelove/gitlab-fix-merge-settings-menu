@@ -38,20 +38,19 @@
 3.  В поле кода `js` вставить следующий код.
 
 ```js
-setTimeout(() => findContainer(), 1000);
+setTimeout(() => findContainer(), 500);
 
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
 	let counter = document.querySelector("#discussionCounter");
 
-	console.log(container);
-
 	if (container == null || settings == null) {
 		await setTimeout(() => findContainer(), 1000);
 	} else {
 		setTimeout(() => changeFileHeadersTopMargin(), 1000);
 		setTimeout(() => findCounter(), 1000);
+		setTimeout(() => addListenersForTabs(), 1000);
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
 		block1.id = "git_fix_block1";
@@ -88,6 +87,40 @@ async function changeFileHeadersTopMargin(){
 		header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);"
 	});
 	setTimeout(() => changeFileHeadersTopMargin(), 1000);
+}
+
+async function addListenersForTabs(){
+	document.addEventListener("mousedown", (e) => {
+			var el = document.elementFromPoint(e.clientX, e.clientY);
+			let tabs = document.querySelector("li[data-qa-selector='diffs_tab'").parentNode;
+			if(isDescendant(tabs,el)){
+				el.addEventListener("click", (qw)=>console.log("dispatchEvent click"));
+				el.dispatchEvent(new Event("click"));
+				hideOrShowBlock();
+			}
+	});
+}
+
+function hideOrShowBlock(){
+	let diffs = document.querySelector("li[data-qa-selector='diffs_tab'");
+	let block1 = document.querySelector("#git_fix_block1");
+		if(diffs.classList.contains("active")){
+				block1.style.display = "flex";
+		}
+		else{
+				block1.style.display = "none";
+		}
+}
+
+function isDescendant(parent, child) {
+     var node = child.parentNode;
+     while (node != null) {
+         if (node == parent) {
+             return true;
+         }
+         node = node.parentNode;
+     }
+     return false;
 }
 ```
 
