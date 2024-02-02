@@ -40,8 +40,18 @@
 
 3.  В поле кода `js` вставить следующий код.
 
+**Возможность настройки**:
+> `scrollRowCountFromComment` (строка 1). *Количество строк, которые будут видны после переключения к треду (комменту). (по стрелочкам)*
+> 
+> ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/e140b80c-0b8f-4886-8429-97e54b2bccbc)
+>
+> По-умолчанию 6 
+>
+>![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a0a1dbae-0c8e-4fa6-b222-3ed3b748feb6)
+
 ```js
 const scrollRowCountFromComment = 6; // more than zero
+
 setTimeout(() => findContainer(), 500);
 
 async function findContainer() {
