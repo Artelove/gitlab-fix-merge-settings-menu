@@ -48,11 +48,11 @@ async function findContainer() {
 	let settings = document.querySelector(".mr-version-menus-container");
 
 	if (container == null || settings == null) {
-		await setTimeout(() => findContainer(), 1000);
+		await setTimeout(() => findContainer(), 500);
 	} else {
-		setTimeout(() => changeFileHeadersTopMargin(), 1000);
-		setTimeout(() => findCounter(), 1000);
-		setTimeout(() => addListenersForTabs(), 1000);
+		setTimeout(() => changeFileHeadersTopMargin(), 100);
+		setTimeout(() => findCounter(), 100);
+		setTimeout(() => addListenersForTabs(), 100);
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
 		block1.id = "git_fix_block1";
@@ -76,8 +76,9 @@ async function findContainer() {
 async function findCounter() {
 	let counter = document.querySelector("#discussionCounter");
 	if (counter == null) {
-		setTimeout(() => findCounter(), 1000);
+		setTimeout(() => findCounter(), 500);
 	} else {
+		setTimeout(() => setAdditionalScrollToSwitchCommentsButton(), 100);
 		let block2 = document.querySelector("#git_fix_block2");
 		block2.appendChild(counter.parentElement);
 	}
@@ -124,6 +125,30 @@ function isDescendant(parent, child) {
      }
      return false;
 }
+
+function setAdditionalScrollToSwitchCommentsButton(){
+	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
+	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
+	mr_down_button.addEventListener("mouseup", (e)=>{
+		window.scroll(0,window.pageYOffset+147);
+		setTimeout(()=>document.addEventListener("scrollend", myScroll),200);
+	});
+	
+	mr_up_button.addEventListener("mouseup", (e)=>{
+		window.scroll(0,window.pageYOffset-147);
+		setTimeout(()=>document.addEventListener("scrollend", myScroll),200);
+	});
+
+}
+
+function myScroll() {
+	window.scrollBy({	
+			top: -147,
+			left: 0,
+			behavior: "smooth"});
+	document.removeEventListener("scrollend",myScroll);
+}
+
 ```
 
 4. Сохранить правило.
