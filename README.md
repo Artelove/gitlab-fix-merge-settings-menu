@@ -1,4 +1,4 @@
-## Проблема:
+![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a7256948-29b7-4f76-ad39-b4c2afc681b9)## Проблема:
 
 Меню открытия\\скрытия измененных файлов и опции просмотра мр-а находятся закрепленными сверху страницы.
 
@@ -11,7 +11,7 @@
    
    это **долго и неудобно**.
 2. В некоторые моменты строки в коде выглядят странно ввиду их большой ширины.
-   Пример: ![Pasted image 20240130101540](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/0c492736-3917-4eb1-b524-55392fdc6cee)
+   Пример: ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/6afc4cfd-379a-4f10-b214-a31a5290f79e)
 
     Чтобы посмотреть строку в исходном виде, нужно переключить в настройках просмотра на режим Inline.
 
@@ -19,7 +19,8 @@
 
     Теперь показывается с понятными отступами:
 
-    ![Pasted image 20240130101731](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/fa18b6ad-ed2c-411e-b6f5-814ddd3a7656)
+    ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/d9f39e5d-7334-42f1-ac05-52415d4e8b0a)
+
 
 Однако эта функция так же **закреплена в меню сверху**. И для этого нужно подняться вверх, активировать, и спуститься на просматриваемое место. Это **неудобно**.
 
