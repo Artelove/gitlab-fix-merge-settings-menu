@@ -41,6 +41,7 @@
 3.  В поле кода `js` вставить следующий код.
 
 ```js
+const scrollRowCountFromComment = 6; // more than zero
 setTimeout(() => findContainer(), 500);
 
 async function findContainer() {
@@ -126,16 +127,17 @@ function isDescendant(parent, child) {
      return false;
 }
 
+
 function setAdditionalScrollToSwitchCommentsButton(){
 	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
 	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
 	mr_down_button.addEventListener("mouseup", (e)=>{
-		window.scroll(0,window.pageYOffset+147);
+		window.scroll(0,window.pageYOffset+((scrollRowCountFromComment+1)*20+26));
 		setTimeout(()=>document.addEventListener("scrollend", myScroll),200);
 	});
 	
 	mr_up_button.addEventListener("mouseup", (e)=>{
-		window.scroll(0,window.pageYOffset-147);
+		window.scroll(0,window.pageYOffset-((scrollRowCountFromComment+1)*20+26));
 		setTimeout(()=>document.addEventListener("scrollend", myScroll),200);
 	});
 
@@ -143,12 +145,11 @@ function setAdditionalScrollToSwitchCommentsButton(){
 
 function myScroll() {
 	window.scrollBy({	
-			top: -147,
+			top: -(scrollRowCountFromComment+1)*20-26,
 			left: 0,
 			behavior: "smooth"});
 	document.removeEventListener("scrollend",myScroll);
 }
-
 ```
 
 4. Сохранить правило.
