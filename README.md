@@ -50,7 +50,7 @@
 >![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a0a1dbae-0c8e-4fa6-b222-3ed3b748feb6)
 
 ```js
-const scrollRowCountFromComment = 6; // more than zero
+const scrollRowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
 
 setTimeout(() => findContainer(), 500);
 
