@@ -55,13 +55,13 @@
 ```js
 const scrollRowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
 
-setTimeout(() => findContainer(), 200);
+setTimeout(() => findContainer(), 100);
 
 function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
 	if (container == null || settings == null) {
-		await setTimeout(() => findContainer(), 500);
+		setTimeout(() => findContainer(), 200);
 	} else {
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
@@ -161,6 +161,7 @@ function waitResetConter() {
 		setTimeout(waitResetConter, 1000);
 	}
 }
+
 let is_enable = true;
 let is_my_scrolling = true;
 
@@ -197,6 +198,7 @@ function replaceOriginalButtonsSwitchComments(e) {
 		}
 	});
 }
+
 let currentElementFocus = null;
 
 function doMyScroll(is_down = true) {
