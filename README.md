@@ -54,14 +54,12 @@
 
 ```js
 const scrollRowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
-
-setTimeout(() => findContainer(), 100);
-
-function findContainer() {
+setTimeout(() => findContainer(), 200);
+async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
 	let settings = document.querySelector(".mr-version-menus-container");
 	if (container == null || settings == null) {
-		setTimeout(() => findContainer(), 200);
+		await setTimeout(() => findContainer(), 500);
 	} else {
 		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
 		let block1 = document.createElement("div");
@@ -80,11 +78,9 @@ function findContainer() {
 		changeFileHeadersTopMargin();
 		findCounter();
 		addListenersForTabs();
-		console.log("gitlab fix setting added");
 	}
 }
-
-function findCounter() {
+async function findCounter() {
 	let counter = document.querySelector("#discussionCounter");
 	if (counter == null) {
 		setTimeout(() => findCounter(), 300);
@@ -94,16 +90,14 @@ function findCounter() {
 		waitResetConter();
 	}
 }
-
-function changeFileHeadersTopMargin() {
+async function changeFileHeadersTopMargin() {
 	let fileHeaders = document.querySelectorAll("div[data-qa-selector=file_title_container]");
 	fileHeaders.forEach((header) => {
 		header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);";
 	});
 	setTimeout(() => changeFileHeadersTopMargin(), 500);
 }
-
-function addListenersForTabs() {
+async function addListenersForTabs() {
 	document.addEventListener("mousedown", (e) => {
 		var el = document.elementFromPoint(e.clientX, e.clientY);
 		let tabs = document.querySelector("li[data-qa-selector='diffs_tab'").parentNode;
@@ -113,8 +107,7 @@ function addListenersForTabs() {
 		}
 	});
 }
-
-function hideOrShowBlock() {
+async function hideOrShowBlock() {
 	let diffs = document.querySelector("li[data-qa-selector='diffs_tab'");
 	let block1 = document.querySelector("#git_fix_block1");
 	let mr_down_button = document.querySelector("button[data-track-label=gitlab_mr_next_unresolved_thread]");
@@ -133,7 +126,9 @@ function hideOrShowBlock() {
 			mr_down_button.style.display = "inline-flex";
 			mr_up_button.style.display = "inline-flex";
 		}
-	} catch (e) {	}
+	} catch (e) {
+		console.log(e);
+	}
 	setTimeout(() => hideOrShowBlock(), 200);
 }
 
@@ -147,12 +142,11 @@ function isDescendant(parent, child) {
 	}
 	return false;
 }
-
-function waitResetConter() {
+async function waitResetConter() {
 	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
 	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
 	if (mr_down_button == null) {
-		setTimeout(waitResetConter, 500);
+		setTimeout(waitResetConter, 200);
 	} else {
 		document.addEventListener("scroll", replaceOriginalButtonsSwitchComments, {
 			once: true,
@@ -161,15 +155,10 @@ function waitResetConter() {
 		setTimeout(waitResetConter, 1000);
 	}
 }
-
 let is_enable = true;
 let is_my_scrolling = true;
-
-function replaceOriginalButtonsSwitchComments(e) {
+async function replaceOriginalButtonsSwitchComments(e) {
 	window.scroll(window.scrollX, window.scrollY);
-	e.preventDefault();
-	e.stopPropagation();
-	e.stopImmediatePropagation()
 	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
 	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
 	let parent = mr_down_button.parentElement;
@@ -190,18 +179,19 @@ function replaceOriginalButtonsSwitchComments(e) {
 		doMyScroll(false);
 	});
 	document.addEventListener("wheel", (event) => {
+		console.log(event);
 		currentElementFocus = null;
 	});
 	document.addEventListener("mousedown", (event) => {
 		if (event && event.button == 4) {
+			console.log("middleclicked");
+			console.log(event);
 			currentElementFocus = null;
 		}
 	});
 }
-
 let currentElementFocus = null;
-
-function doMyScroll(is_down = true) {
+async function doMyScroll(is_down = true) {
 	let diffs = document.querySelectorAll("div.diff-grid-comments ul.notes div.note-actions button.line-resolve-btn");
 	let notResolvedDiffs = [];
 	diffs.forEach((diff) => {
@@ -270,6 +260,7 @@ function doMyScroll(is_down = true) {
 		left: window.scrollX,
 		behavior: "smooth",
 	});
+	console.log("doMyScroll");
 }
 
 function getPositionTopOfElement(element) {
@@ -288,6 +279,8 @@ function getDiffBody(elem){
 	});
 	return diffBody;
 }
+console.log("gitlab fix setting added");
+
 ```
 
 4. Сохранить правило.
