@@ -54,6 +54,7 @@
 
 ```js
 const scrollRowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
+
 setTimeout(() => findContainer(), 200);
 async function findContainer() {
 	let container = document.querySelector(".merge-request-tabs-container");
@@ -208,7 +209,7 @@ async function doMyScroll(is_down = true) {
 		}
 		if (currentElementFocus == null) {
 			notResolvedDiffs.forEach((diff) => {
-				offset = getPositionTopOfElement(diff) - currentPositionY + 5 - scrollRowCountFromComment * 20;
+				offset = getPositionTopOfElement(diff) - currentPositionY -45 - scrollRowCountFromComment * 20;
 				if (is_down) {
 					if (offset > 0) {
 						nearestElement = diff;
@@ -249,8 +250,14 @@ async function doMyScroll(is_down = true) {
 		}
 	}
 	currentElementFocus = nearestElement;
+	let diffBody = getDiffBody(currentElementFocus);
+	let elementOffset = getPositionTopOfElement(currentElementFocus);
+	
+	if(diffBody != null)
+		elementOffset = getPositionTopOfElement(diffBody);
+		
 	window.scroll({
-		top: window.scrollY + (getPositionTopOfElement(currentElementFocus) - window.scrollY) - 45 - scrollRowCountFromComment * 20,
+		top: window.scrollY + (elementOffset - window.scrollY) - 37 - scrollRowCountFromComment * 20,
 		left: window.scrollX,
 		behavior: "smooth",
 	});
@@ -261,6 +268,17 @@ function getPositionTopOfElement(element) {
 	var bodyRect = document.body.getBoundingClientRect();
 	elemRect = element.getBoundingClientRect();
 	return elemRect.top - bodyRect.top - 100;
+}
+
+function getDiffBody(elem){
+	let diffs = document.querySelectorAll("div[data-qa-selector='discussion_content']");
+	let diffBody = null;
+	diffs.forEach((diff)=>{
+		if(diff.contains(elem)){
+			diffBody = diff;
+		}
+	});
+	return diffBody;
 }
 console.log("gitlab fix setting added");
 ```
