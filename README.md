@@ -53,233 +53,108 @@
 > ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a0a1dbae-0c8e-4fa6-b222-3ed3b748feb6)
 
 ```js
-const scrollRowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
+const rowCountFromComment = 5; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
+
+
 setTimeout(() => findContainer(), 200);
-async function findContainer() {
-	let container = document.querySelector(".merge-request-tabs-container");
-	let settings = document.querySelector(".mr-version-menus-container");
-	if (container == null || settings == null) {
-		await setTimeout(() => findContainer(), 500);
-	} else {
-		let styles = "display: flex; flex-direction: row; justify-content: space-between;";
-		let block1 = document.createElement("div");
-		block1.id = "git_fix_block1";
-		block1.style = styles;
-		let block2 = document.createElement("div");
-		block2.id = "git_fix_block2";
-		block2.style = styles;
-		container.style = "flex-direction:column";
-		container.appendChild(block1);
-		container.appendChild(block2);
-		settings.style = "width:100%; display:flex; flex-direction: row; align-items: center; line-height: 10px;";
-		let merge_request_tabs = document.querySelector(".merge-request-tabs");
-		block1.appendChild(settings);
-		block2.appendChild(merge_request_tabs);
-		changeFileHeadersTopMargin();
-		findCounter();
-		addListenersForTabs();
-	}
-}
-async function findCounter() {
-	let counter = document.querySelector("#discussionCounter");
-	if (counter == null) {
-		setTimeout(() => findCounter(), 300);
-	} else {
-		let block2 = document.querySelector("#git_fix_block2");
-		block2.appendChild(counter.parentElement);
-		waitResetConter();
-	}
-}
-async function changeFileHeadersTopMargin() {
-	let fileHeaders = document.querySelectorAll("div[data-qa-selector=file_title_container]");
-	fileHeaders.forEach((header) => {
-		header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);";
-	});
-	setTimeout(() => changeFileHeadersTopMargin(), 500);
-}
-async function addListenersForTabs() {
-	document.addEventListener("mousedown", (e) => {
-		var el = document.elementFromPoint(e.clientX, e.clientY);
-		let tabs = document.querySelector("li[data-qa-selector='diffs_tab'").parentNode;
-		if (isDescendant(tabs, el)) {
-			el.dispatchEvent(new Event("click"));
-			hideOrShowBlock();
-		}
-	});
-}
-async function hideOrShowBlock() {
-	let diffs = document.querySelector("li[data-qa-selector='diffs_tab'");
-	let block1 = document.querySelector("#git_fix_block1");
-	let mr_down_button = document.querySelector("button[data-track-label=gitlab_mr_next_unresolved_thread]");
-	let mr_up_button = document.querySelector("button[data-track-label=gitlab_mr_previous_unresolved_thread]");
-	let clone_mr_down_button = document.querySelector("button[data-track-label=clone_mr_next_unresolved_thread]");
-	let clone_mr_up_button = document.querySelector("button[data-track-label=clone_mr_previous_unresolved_thread]");
-	try {
-		if (diffs.classList.contains("active")) {
-			mr_down_button.style.display = "none";
-			mr_up_button.style.display = "none";
-			clone_mr_down_button.style.display = "inline-flex";
-			clone_mr_up_button.style.display = "inline-flex";
-		} else {
-			clone_mr_down_button.style.display = "none";
-			clone_mr_up_button.style.display = "none";
-			mr_down_button.style.display = "inline-flex";
-			mr_up_button.style.display = "inline-flex";
-		}
-	} catch (e) {
-		console.log(e);
-	}
-	setTimeout(() => hideOrShowBlock(), 200);
+setTimeout(() => changeScriptsToLocal(), 500);
+
+
+function findContainer() {
+    let container = document.querySelector(".merge-request-tabs-container");
+    let settings = document.querySelector(".mr-version-menus-container");
+    if (container == null || settings == null) {
+        setTimeout(() => findContainer(), 500);
+    } else {
+        let styles = "display: flex; flex-direction: row; justify-content: space-between;";
+        let block1 = document.createElement("div");
+        block1.id = "git_fix_block1";
+        block1.style = styles;
+        let block2 = document.createElement("div");
+        block2.id = "git_fix_block2";
+        block2.style = styles;
+        container.style = "flex-direction:column";
+        container.appendChild(block1);
+        container.appendChild(block2);
+        settings.style = "width:100%; display:flex; flex-direction: row; align-items: center; line-height: 10px;";
+        let merge_request_tabs = document.querySelector(".merge-request-tabs");
+        block1.appendChild(settings);
+        block2.appendChild(merge_request_tabs);
+        changeFileHeadersTopMargin();
+        findCounter();
+    }
 }
 
-function isDescendant(parent, child) {
-	var node = child.parentNode;
-	while (node != null) {
-		if (node == parent) {
-			return true;
-		}
-		node = node.parentNode;
-	}
-	return false;
-}
-async function waitResetConter() {
-	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
-	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
-	if (mr_down_button == null) {
-		setTimeout(waitResetConter, 200);
-	} else {
-		document.addEventListener("scroll", replaceOriginalButtonsSwitchComments, {
-			once: true,
-		});
-		setTimeout(() => mr_down_button.dispatchEvent(new Event("click")), 200);
-		setTimeout(waitResetConter, 1000);
-	}
-}
-let is_enable = true;
-let is_my_scrolling = true;
-async function replaceOriginalButtonsSwitchComments(e) {
-	window.scroll(window.scrollX, window.scrollY);
-	let mr_down_button = document.querySelector("button[data-track-label=mr_next_unresolved_thread]");
-	let mr_up_button = document.querySelector("button[data-track-label=mr_previous_unresolved_thread]");
-	let parent = mr_down_button.parentElement;
-	let clone_mr_down_button = mr_down_button.cloneNode(true);
-	let clone_mr_up_button = mr_up_button.cloneNode(true);
-	clone_mr_down_button.setAttribute("data-track-label", "clone_mr_next_unresolved_thread");
-	clone_mr_up_button.setAttribute("data-track-label", "clone_mr_previous_unresolved_thread");
-	mr_down_button.setAttribute("data-track-label", "gitlab_mr_next_unresolved_thread");
-	mr_up_button.setAttribute("data-track-label", "gitlab_mr_previous_unresolved_thread");
-	mr_down_button.style.display = "none";
-	mr_up_button.style.display = "none";
-	parent.insertBefore(clone_mr_down_button, parent.firstChild);
-	parent.insertBefore(clone_mr_up_button, parent.firstChild);
-	clone_mr_down_button.addEventListener("click", (e) => {
-		doMyScroll();
-	});
-	clone_mr_up_button.addEventListener("click", (e) => {
-		doMyScroll(false);
-	});
-	document.addEventListener("wheel", (event) => {
-		console.log(event);
-		currentElementFocus = null;
-	});
-	document.addEventListener("mousedown", (event) => {
-		if (event && event.button == 4) {
-			console.log("middleclicked");
-			console.log(event);
-			currentElementFocus = null;
-		}
-	});
-}
-let currentElementFocus = null;
-async function doMyScroll(is_down = true) {
-	let diffs = document.querySelectorAll("div.diff-grid-comments ul.notes div.note-actions button.line-resolve-btn");
-	let notResolvedDiffs = [];
-	diffs.forEach((diff) => {
-		if (diff.classList.contains("is-active")) return;
-		notResolvedDiffs.push(diff);
-	});
-	let currentPositionY = window.scrollY;
-	let nearestElement = null;
-	let minOffest = 99999999;
-	let offset = null;
-	try {
-		if (document.body.contains(currentElementFocus) == false || notResolvedDiffs.indexOf(currentElementFocus) == -1) {
-			currentElementFocus = null;
-		}
-		if (currentElementFocus == null) {
-			notResolvedDiffs.forEach((diff) => {
-				offset = getPositionTopOfElement(diff) - currentPositionY -45 - scrollRowCountFromComment * 20;
-				if (is_down) {
-					if (offset > 0) {
-						nearestElement = diff;
-						throw new Error("diff founded");
-					}
-				} else {
-					if (offset < 0) {
-						nearestElement = diff;
-						minOffest = offset;
-					}
-					if (offset > 0) {
-						throw new Error("diff founded");
-					}
-				}
-			});
-		} else {
-			let index = notResolvedDiffs.indexOf(currentElementFocus);
-			if (is_down) {
-				if (index < notResolvedDiffs.length) {
-					nearestElement = notResolvedDiffs.at(index + 1);
-				}
-			} else {
-				if (index >= 0) {
-					nearestElement = notResolvedDiffs.at(index - 1);
-				}
-			}
-		}
-	} catch (e) {
-		if (e.message !== "diff founded") {
-			throw e;
-		}
-	}
-	if (nearestElement == null) {
-		if (is_down) {
-			nearestElement = notResolvedDiffs.at(0);
-		} else {
-			nearestElement = notResolvedDiffs.at(notResolvedDiffs.length - 1);
-		}
-	}
-	currentElementFocus = nearestElement;
-	let diffBody = getDiffBody(currentElementFocus);
-	let elementOffset = getPositionTopOfElement(currentElementFocus);
-	
-	if(diffBody != null)
-		elementOffset = getPositionTopOfElement(diffBody);
-		
-	window.scroll({
-		top: window.scrollY + (elementOffset - window.scrollY) - 37 - scrollRowCountFromComment * 20,
-		left: window.scrollX,
-		behavior: "smooth",
-	});
-	console.log("doMyScroll");
+function findCounter() {
+    let counter = document.querySelector("#discussionCounter");
+    if (counter == null) {
+        setTimeout(() => findCounter(), 300);
+    } else {
+        let block2 = document.querySelector("#git_fix_block2");
+        block2.appendChild(counter.parentElement);
+    }
 }
 
-function getPositionTopOfElement(element) {
-	var bodyRect = document.body.getBoundingClientRect();
-	elemRect = element.getBoundingClientRect();
-	return elemRect.top - bodyRect.top - 100;
+function changeFileHeadersTopMargin() {
+    let fileHeaders = document.querySelectorAll("div[data-qa-selector=file_title_container]");
+    fileHeaders.forEach((header) => {
+        header.style = "--initial-top: calc(var(--header-height, 92px) + 48px);";
+    });
+    setTimeout(() => changeFileHeadersTopMargin(), 500);
 }
 
-function getDiffBody(elem){
-	let diffs = document.querySelectorAll("div[data-qa-selector='discussion_content']");
-	let diffBody = null;
-	diffs.forEach((diff)=>{
-		if(diff.contains(elem)){
-			diffBody = diff;
-		}
-	});
-	return diffBody;
+function changeScriptsToLocal() {
+    let scripts = document.querySelectorAll("script");
+    let main = null;
+    let pages_merge = null;
+    scripts.forEach((script) => {
+        if (script.src.includes("/assets/webpack/main"))
+            main = script;
+        if (script.src.includes("/assets/webpack/pages.projects.merge_requests"))
+            pages_merge = script;
+    });
+    if (main == null || pages_merge == null) {
+        setTimeout(() => changeScriptsToLocal(), 500);
+    }
+    if (main != null) {
+        main.remove();
+        addScriptTextContent(main, "main");
+    }
+
+    if (pages_merge != null) {
+        pages_merge.remove();
+        addScriptTextContent(pages_merge, "pages_merge");
+    }
+
 }
-console.log("gitlab fix setting added");
+
+let threadArea = rowCountFromComment * 20 + 46;
+
+function addScriptTextContent(script, type) {
+    let text = null;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", script.src)
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            text = xhr.responseText;
+            let outputString = null;
+            if (type == "pages_merge") {
+                let pattern = /Math\.ceil\(.\)-/gm;
+                outputString = text.replace(pattern, (match, name) => `Math.ceil(${text[name+10]}-${threadArea})-`);
+            } else if (type == "main") {
+                let pattern = /const\{duration:.=.*,offset:.=./
+                outputString = text.replace(pattern, `const{duration:t=200,offset:r=-${threadArea}`);
+            }
+            var ref = document.getElementsByTagName('script')[0],
+                script = document.createElement('script');
+            script.setAttribute('type', 'text/javascript');
+            script.setAttribute('id', `${type.toString()}`);
+            script.textContent = outputString;
+            ref.parentNode.insertBefore(script, ref);
+        }
+    };
+    xhr.send();
+}
 
 ```
 
