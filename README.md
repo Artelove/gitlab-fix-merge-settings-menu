@@ -107,22 +107,26 @@ function changeScriptsToLocal() {
     let scripts = document.querySelectorAll("script");
     let main = null;
     let pages_merge = null;
-    scripts.forEach((script) => {
-        if (script.src.includes("/assets/webpack/main"))
-            main = script;
-        if (script.src.includes("/assets/webpack/pages.projects.merge_requests"))
-            pages_merge = script;
-    });
+    if(document.location.href.includes('/merge_requests/')){
+	    scripts.forEach((script) => {
+	        if (script.src.includes("/assets/webpack/main"))
+	            main = script;
+	        if (script.src.includes("/assets/webpack/pages.projects.merge_requests"))
+	            pages_merge = script;
+	    });
+	}
     if (main == null || pages_merge == null) {
         setTimeout(() => changeScriptsToLocal(), 500);
     }
     if (main != null) {
+    	console.log(main);
         main.remove();
         addScriptTextContent(main, "main");
     }
 
     if (pages_merge != null) {
-        pages_merge.remove();
+    	console.log(pages_merge);
+    	pages_merge.remove();
         addScriptTextContent(pages_merge, "pages_merge");
     }
 
