@@ -2,7 +2,8 @@
 
 Меню открытия\\скрытия измененных файлов и опции просмотра мр-а находятся закрепленными сверху страницы.
 
-![Pasted image 20240130125828](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/4bfd6e19-c8e6-42f6-a309-7cf7e0daf7a3)
+![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a1c2a365-09a4-4d09-b302-d08a66162eaf)
+
 
 При скролинге по мр\`у это строка так и остается сверху из-за чего возникают неудобства:
 
@@ -13,7 +14,8 @@
     это **долго и неудобно**.
 
 2. В некоторые моменты строки в коде выглядят странно ввиду их большой ширины.
-   Пример: ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/6afc4cfd-379a-4f10-b214-a31a5290f79e)
+   Пример: ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/42ce7dfa-caec-4774-97ca-4281a31bb293)
+
 
     Чтобы посмотреть строку в исходном виде, нужно переключить в настройках просмотра на режим Inline.
 
@@ -21,7 +23,7 @@
 
     Теперь показывается с понятными отступами:
 
-    ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/d9f39e5d-7334-42f1-ac05-52415d4e8b0a)
+    ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/37ac5e3f-8775-4f5f-bf8e-1af1e3d2d39a)
 
 Однако эта функция так же **закреплена в меню сверху**. И для этого нужно подняться вверх, активировать, и спуститься на просматриваемое место. Это **неудобно**.
 
