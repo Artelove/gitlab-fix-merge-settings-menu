@@ -1,11 +1,11 @@
 ## Проблема:
 
-Меню открытия\\скрытия измененных файлов и опции просмотра мр-а находятся закрепленными сверху страницы.
+### Меню открытия\\скрытия измененных файлов и опции просмотра мр-а находятся закрепленными сверху страницы.
 
 ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a1c2a365-09a4-4d09-b302-d08a66162eaf)
 
 
-При скролинге по мр\`у это строка так и остается сверху из-за чего возникают неудобства:
+### При скролинге по мр\`у это строка так и остается сверху из-за чего возникают неудобства:
 
 1. Открытие иерархии файлов. Чтобы переключиться на файл, при закрытом дереве, нужно **подняться наверх**, **открыть панель файлов** **открыть необходимый файл**,
 
@@ -29,7 +29,7 @@
 
 ## Решение:
 
-Закрепить по умолчанию меню настроек сверху независимо от скрола.
+### Закрепить по умолчанию меню настроек сверху независимо от скрола.
 Пример:
 
 ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/61c3d639-9d8a-4fcb-93bb-70ac60b7aa6b)
@@ -46,7 +46,7 @@
 
 **Возможность настройки**:
 
-> `scrollRowCountFromComment` (строка 1). _Количество строк, которые будут видны после переключения к треду (комменту). (по стрелочкам)_
+> `rowCountFromComment` (строка 1). _Количество строк, которые будут видны после переключения к треду (комменту). (по стрелочкам)_
 >
 > ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/e140b80c-0b8f-4886-8429-97e54b2bccbc)
 >
@@ -55,12 +55,11 @@
 > ![image](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a0a1dbae-0c8e-4fa6-b222-3ed3b748feb6)
 
 ```js
-const rowCountFromComment = 5; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
+const rowCountFromComment = 6; // *Количество строк (>0), которые будут видны после переключения к треду (комменту). (по стрелочкам)*
 
 
 setTimeout(() => findContainer(), 200);
 setTimeout(() => changeScriptsToLocal(), 500);
-
 
 function findContainer() {
     let container = document.querySelector(".merge-request-tabs-container");
@@ -109,6 +108,7 @@ function changeScriptsToLocal() {
     let scripts = document.querySelectorAll("script");
     let main = null;
     let pages_merge = null;
+
     if(document.location.href.includes('/merge_requests/')){
 	    scripts.forEach((script) => {
 	        if (script.src.includes("/assets/webpack/main"))
@@ -117,9 +117,11 @@ function changeScriptsToLocal() {
 	            pages_merge = script;
 	    });
 	}
+
     if (main == null || pages_merge == null) {
         setTimeout(() => changeScriptsToLocal(), 500);
     }
+
     if (main != null) {
     	console.log(main);
         main.remove();
@@ -131,7 +133,6 @@ function changeScriptsToLocal() {
     	pages_merge.remove();
         addScriptTextContent(pages_merge, "pages_merge");
     }
-
 }
 
 let threadArea = rowCountFromComment * 20 + 46;
@@ -144,6 +145,7 @@ function addScriptTextContent(script, type) {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             text = xhr.responseText;
             let outputString = null;
+
             if (type == "pages_merge") {
                 let pattern = /Math\.ceil\(.\)-/gm;
                 outputString = text.replace(pattern, (match, name) => `Math.ceil(${text[name+10]}-${threadArea})-`);
@@ -151,8 +153,9 @@ function addScriptTextContent(script, type) {
                 let pattern = /const\{duration:.=.*,offset:.=./
                 outputString = text.replace(pattern, `const{duration:t=200,offset:r=-${threadArea}`);
             }
+
             var ref = document.getElementsByTagName('script')[0],
-                script = document.createElement('script');
+		script = document.createElement('script');
             script.setAttribute('type', 'text/javascript');
             script.setAttribute('id', `${type.toString()}`);
             script.textContent = outputString;
@@ -167,7 +170,7 @@ function addScriptTextContent(script, type) {
 4. Сохранить правило.
    ![Pasted image 20240130125240](https://github.com/Artelove/gitlab-fix-merge-settings-menu/assets/66765809/a05a98f8-d000-41e0-8b6a-3bd380ac7752)
 
-5. Обновить странцу с Gitlab и пользоваться результатом.
+5. Полностью обновить страницу **`Ctrl+F5`** с Gitlab и пользоваться результатом.
 
 ## Информация:
 
