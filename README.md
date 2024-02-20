@@ -60,6 +60,7 @@ const rowCountFromComment = 6; // *Количество строк (>0), кот�
 
 setTimeout(() => findContainer(), 200);
 setTimeout(() => changeScriptsToLocal(), 500);
+setTimeout(() => addMarginToTreeSearch(), 500);
 
 function findContainer() {
     let container = document.querySelector(".merge-request-tabs-container");
@@ -163,6 +164,14 @@ function addScriptTextContent(script, type) {
         }
     };
     xhr.send();
+}
+
+function addMarginToTreeSearch(){
+	let diffTree = document.querySelector(".diff-tree-list");
+	if(diffTree != null){	
+		diffTree.style.cssText += "--initial-pos: calc(var(--header-height, 48px) + 48px + 48px)!important;"
+	}
+	setTimeout(() => addMarginToTreeSearch(), 500);
 }
 
 ```
