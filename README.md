@@ -169,11 +169,10 @@ function addScriptTextContent(script, type) {
 function addMarginToTreeSearch(){
 	let diffTree = document.querySelector(".diff-tree-list");
 	if(diffTree != null){	
-		diffTree.style.cssText += "--initial-pos: calc(var(--header-height, 48px) + 48px + 48px)!important;"
+		diffTree.style.top = "calc(calc(var(--header-height,48px) + calc(var(--system-header-height) + var(--performance-bar-height)) + var(--top-bar-height)) + 48px + 48px)";
 	}
 	setTimeout(() => addMarginToTreeSearch(), 500);
 }
-
 ```
 
 4. Сохранить правило.
